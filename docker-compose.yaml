@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
@@ -35,24 +34,6 @@ services:
     volumes:
       - ${MEDIA}:/media
       - ${STORAGE}/torrents:/downloads
-
-  plex:
-    image: jaymoulin/plex:1.30.1.6562
-    #expose:
-    #  - 32400
-    #  - 33400
-    # Uncomment if you DONT use network_mode: "host"
-    ports:
-      - 32400:32400
-      - 33400:33400
-    environment:
-      - TZ=${TIMEZONE}
-    volumes:
-      - ${STORAGE}/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - ${MEDIA}:/media
-      - ${STORAGE}/tmp:/tmp
-    restart: unless-stopped
-    network_mode: "host" # Only works in Linux
 
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
