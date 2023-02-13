@@ -1,22 +1,6 @@
 version: "3.7"
 
 services:
-  duplicati:
-    image: lscr.io/linuxserver/duplicati:latest
-    container_name: duplicati
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TIMEZONE}
-      #- CLI_ARGS= #optional
-    volumes:
-      - ${DUPLICATI_CONFIG}:/config
-      - ${DUPLICATI_BACKUPS}:/backups
-      - ${DUPLICATI_SOURCE}:/source
-    ports:
-      - 8200:8200
-    restart: unless-stopped
-
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
