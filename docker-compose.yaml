@@ -1,6 +1,22 @@
 version: "3.7"
 
 services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      #- CLI_ARGS= #optional
+    volumes:
+      - ${DUPLICATI_CONFIG}:/config
+      - ${DUPLICATI_BACKUPS}:/backups
+      - ${DUPLICATI_SOURCE}:/source
+    ports:
+      - 8200:8200
+    restart: unless-stopped
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
@@ -10,9 +26,9 @@ services:
       - TZ=${TIMEZONE}
       - JELLYFIN_PublishedServerUrl=192.168.0.5 #optional
     volumes:
-      - ${LIBRARY}:/config
-      - ${SERIES}:/data/tvshows
-      - ${MOVIES}:/data/movies
+      - ${JELLYFIN_LIBRARY}:/config
+      - ${JELLYFIN_SERIES}:/data/tvshows
+      - ${JELLYFIN_MOVIES}:/data/movies
     ports:
       - 8096:8096
       - 8920:8920 #optional
