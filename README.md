@@ -21,6 +21,8 @@ A Fast, Easy and Free Bittorrent Client.
 ### [Samba](https://www.samba.org/)
 Samba is a free software re-implementation of the SMB networking protocol for Windows clients.
 
+### [Pi-hole](https://pi-hole.net/)
+The Pi-hole® is a DNS sinkhole that protects your devices from unwanted content, without installing any client-side software.
 
 ## Initial requirements
 
@@ -103,11 +105,19 @@ echo UUID="{UUID of disk}" {Path to be mounted on (for example: /mnt/storage)} n
 mount -a 
 ```
 
-## Running it
+## Set up
 
 Download this repo, create the env file and modify it. The docker compose reads from `.env`:
 
 `cp .env_example .env`
+
+### Pi-Hole
+The best way to make it run is changing the DNS of the LAN in your router to point to the raspberry private IP.   
+If that's not possible because Router's firmware is trash, it has to be done client per client.   
+
+[How to](https://discourse.pi-hole.net/t/how-do-i-configure-my-devices-to-use-pi-hole-as-their-dns-server/245)
+
+## Running it
 
 Run docker:
 
@@ -119,4 +129,5 @@ Let's assume the Raspberry private address is `192.168.1.23` and we are trying t
 To access Jellyfin: http://192.168.1.23:8096   
 To access Transmission: http://192.168.1.23:9091    
 To access Flexget UI: http://192.168.1.23:5050    
+To access Pihole UI: http://192.168.1.23/admin    
  
