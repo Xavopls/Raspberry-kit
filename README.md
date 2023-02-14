@@ -105,7 +105,11 @@ mount -a
 
 ## Running it
 
-Download this repo, modify the .env file and run:
+Download this repo, create the env file and modify it. The docker compose reads from `.env_secret`:
+
+`cp .env_example .env_secret`
+
+Run docker:
 
 `docker-compose up -d`
 
