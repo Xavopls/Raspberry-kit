@@ -1,35 +1,49 @@
-# Plex sobre Docker en Raspberry
+# My Raspberry Toolset
 
-Con este repo podes crear tu propio server que descarga tus series y peliculas automáticamente, y cuando finaliza, las copia al directorio `media/` donde Plex las encuentra y las agrega a tu biblioteca.
+This repository contains all the software that I have running in my Raspberry.
+It is an extended/modified fork of [this repo](https://github.com/pablokbs/plex-rpi). Kudos to my man Pelado :)
 
-También agregué un pequeño server samba por si querés compartir los archivos por red
+The Raspberry I am using is: [Raspberry Pi 4 Model B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/).
 
-Todo esto es parte de unos tutoriales que estoy subiendo a [Youtube](https://www.youtube.com/playlist?list=PLqRCtm0kbeHCEoCM8TR3VLQdoyR2W1_wv)
+With this repo you'll be able to create a server that downloads your tv shows and movies automatically, and when finished, these will be accessible from Jellyfin.
 
-NOTA: Esta repo fue actualizada para correr usando flexget y transmission [en este video](https://youtu.be/TqVoHWjz_tI), podés todavia acceder a la versión vieja (con rtorrent) en la branch [rtorrent](https://github.com/pablokbs/plex-rpi/tree/rtorrent)
+## Available applications
 
-## Requerimientos iniciales
+### [Jellyfin](https://jellyfin.org/)
+Jellyfin enables you to collect, manage, and stream your media.
 
-Agregar tu usuario (cambiar `kbs` con tu nombre de usuario)
+### [Flexget](https://flexget.com/)
+FlexGet is a multipurpose automation tool for all of your media.
+
+### [Transmission](https://transmissionbt.com/)
+A Fast, Easy and Free Bittorrent Client
+
+### [Samba](https://www.samba.org/)
+Samba is a free software re-implementation of the SMB networking protocol,
+
+
+## Initial requirements
+
+Add your user (change `xavo` with your username).
 
 ```
-sudo useradd kbs -G sudo
+sudo useradd xavo -G sudo
 ```
 
-Agregar esto al sudoers para correr sudo sin password
+Add this to `/etc/sudoers` to run sudo without password:
 
 ```
 %sudo   ALL=(ALL:ALL) NOPASSWD:ALL
 ```
 
-Agregar esta linea a `sshd_config` para que sólo tu usuario pueda hacer ssh
+Add this line to `/etc/ssh/sshd_config` so only your user can use ssh.
 
 ```
-echo "AllowUsers kbs" | sudo tee -a /etc/ssh/sshd_config
+echo "AllowUsers xavo" | sudo tee -a /etc/ssh/sshd_config
 sudo systemctl enable ssh && sudo systemctl start ssh
 ```
 
-Instalar paquetes básicos
+Install basic packages:
 
 ```
 sudo apt-get update && sudo apt-get install -y \
@@ -43,7 +57,7 @@ sudo apt-get update && sudo apt-get install -y \
      ntfs-3g
 ```
 
-Instalar Docker
+Install Docker:
 
 ```
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
@@ -54,50 +68,44 @@ echo "deb [arch=armhf] https://download.docker.com/linux/debian \
 sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
 ```
 
-Modificá tu docker config para que guarde los temps en el disco:
+Change your Docker config so the temps are stored in the external disk.
+Assuming the external device is mounted on: `/mnt/storage/`
 
 ```
 sudo vim /etc/default/docker
-# Agregar esta linea al final con la ruta de tu disco externo montado
+
+# Add / Modify this line
 export DOCKER_TMPDIR="/mnt/storage/docker-tmp"
 ```
 
-Agregar tu usuario al grupo docker 
+Add your user to Docker group: 
 
 ```
-# Add kbs to docker group
-sudo usermod -a -G docker kbs
-#(logout and login)
-docker-compose up -d
+# Add xavo to docker group
+sudo usermod -a -G docker xavo
 ```
 
-Montar el disco (es necesario ntfs-3g si es que tenes tu disco en NTFS)
-NOTA: en este [link](https://youtu.be/OYAnrmbpHeQ?t=5543) pueden ver la explicación en vivo
+Mount the disk. If your disk is NTFS it is necessary to add ntfs-3g)
 
 ```
-# usamos la terminal como root porque vamos a ejecutar algunos comandos que necesitan ese modo de ejecución
 sudo su
-# buscamos el disco que querramos montar (por ejemplo la partición sdb1 del disco sdb)
+
+# Search the disk we want to mount. As example we will be using the partition sdb1)
 fdisk -l
-# pueden usar el siguiente comando para obtener el UUID
+
+# With this command we can get the UUID
 ls -l /dev/disk/by-uuid/
-# y simplemente montamos el disco en el archivo /etc/fstab (pueden hacerlo por el editor que les guste o por consola)
-echo UUID="{nombre del disco o UUID que es único por cada disco}" {directorio donde queremos montarlo} (por ejemplo /mnt/storage) ntfs-3g defaults,auto 0 0 | \
+
+# Mount the disk in the file /etc/fstab 
+echo UUID="{UUID of disk}" {Path to be mounted on (for example: /mnt/storage)} ntfs-3g defaults,auto 0 0 | \
      sudo tee -a /etc/fstab
-# por último para que lea el archivo fstab
-mount -a (o reiniciar)
+# To update and read fstab:
+mount -a 
 ```
 
-## Cómo correrlo
+## Running it
 
-Simplemente bajate este repo y modificá las rutas de tus archivos en el archivo (oculto) .env, y después corré:
+Download this repo, modify the .env file and run:
 
 `docker-compose up -d`
 
-## IMPORTANTE
-
-Las raspberry son computadoras excelentes pero no muy potentes, y plex por defecto intenta transcodear los videos para ahorrar ancho de banda (en mi opinión, una HORRIBLE idea), y la chiquita raspberry no se aguanta este transcodeo "al vuelo", entonces hay que configurar los CLIENTES de plex (si, hay que hacerlo en cada cliente) para que intente reproducir el video en la máxima calidad posible, evitando transcodear y pasando el video derecho a tu tele o Chromecast sin procesar nada, de esta forma, yo he tenido 3 reproducciones concurrentes sin ningún problema. En android y iphone las opciones son muy similares, dejo un screenshot de Android acá:
-
-<img src="https://i.imgur.com/F3kZ9Vh.png" alt="plex" width="400"/>
-
-Más info acá: https://github.com/pablokbs/plex-rpi/issues/3
