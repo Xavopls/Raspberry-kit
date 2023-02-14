@@ -4,8 +4,6 @@ services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
-    env_file: 
-    - .env_secret
     environment:
       - PUID=1000
       - PGID=1000
@@ -25,8 +23,6 @@ services:
   samba:
     image: dperson/samba 
     container_name: samba
-    env_file: 
-    - .env_secret
     restart: always
     command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
     stdin_open: true
@@ -43,8 +39,6 @@ services:
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
     container_name: transmission
-    env_file: 
-    - .env_secret
     command: transmission-daemon -f -g /config
     volumes:
       - ./transmission:/config
@@ -60,8 +54,6 @@ services:
   flexget:
     image: wiserain/flexget:3.5
     container_name: flexget
-    env_file: 
-    - .env_secret
     volumes:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
@@ -79,8 +71,6 @@ services:
   pihole:
     image: pihole/pihole:latest
     container_name: pihole
-    env_file:     
-    - .env_secret
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
     ports:
       - "53:53/tcp"

@@ -3,6 +3,7 @@ plex/*
 .bash*
 .profile*
 .ssh*
+.env
 .vim*
 downloads/*
 .gitconfig
