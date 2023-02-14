@@ -116,6 +116,6 @@ Run docker:
 ## Using it
 Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from inside the LAN.
 
-To access Jellyfin: http://192.168.1.23:8096
-To access Transmission: http://192.168.1.23:9091
-To access Flexget UI: http://192.168.1.23:5050
+To access Jellyfin: http://192.168.1.23:8096  
+To access Transmission: http://192.168.1.23:9091  
+To access Flexget UI: http://192.168.1.23:5050  
