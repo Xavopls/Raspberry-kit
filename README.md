@@ -16,10 +16,10 @@ Jellyfin enables you to collect, manage, and stream your media.
 FlexGet is a multipurpose automation tool for all of your media.
 
 ### [Transmission](https://transmissionbt.com/)
-A Fast, Easy and Free Bittorrent Client
+A Fast, Easy and Free Bittorrent Client.
 
 ### [Samba](https://www.samba.org/)
-Samba is a free software re-implementation of the SMB networking protocol,
+Samba is a free software re-implementation of the SMB networking protocol for Windows clients.
 
 
 ## Initial requirements
@@ -85,7 +85,7 @@ Add your user to Docker group:
 sudo usermod -a -G docker xavo
 ```
 
-Mount the disk. If your disk is NTFS it is necessary to add ntfs-3g)
+Mount the disk. If your disk is NTFS it is necessary to add ntfs-3g:
 
 ```
 sudo su
@@ -109,3 +109,9 @@ Download this repo, modify the .env file and run:
 
 `docker-compose up -d`
 
+## Using it
+Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from inside the LAN.
+
+To access Jellyfin: http://192.168.1.23:8096
+To access Transmission: http://192.168.1.23:9091
+To access Flexget UI: http://192.168.1.23:5050
