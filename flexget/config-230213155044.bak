@@ -15,21 +15,34 @@ templates:
         tv:
           exact: yes
           propers: 12 hours
-          quality: 1080p
+          quality: 720p
       tv:
-      - Billions
+      - Black Mirror
+      - Brooklyn Nine-Nine
+      - Homeland
+      - Luther
+      - Mr Robot
       - Rick and Morty
-      - The boys
+      - SEAL Team
+      - Sherlock
+      - Silicon Valley
+      - Suits
+      - The Flash
+      - The Good Fight
+      - The Walking Dead
+      - Tosh.0
+      - True Detective
+      - Westworld
 
     transmission:
       host: transmission
       port: 9091
       username: admin
-      password: "123456"
+      password: "123123qweqwe"
 
 tasks:
   eztvrss:
-    rss: https://eztv.re/ezrss.xml
+    rss: https://eztv.ag/ezrss.xml
     template: tv
     priority: 2
   sort_tv:

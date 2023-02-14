@@ -23,6 +23,7 @@ services:
   samba:
     image: dperson/samba # no hay tag con versiones, solo latest
     restart: always
+    container_name: samba
     command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
     stdin_open: true
     tty: true
@@ -38,6 +39,7 @@ services:
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
     command: transmission-daemon -f -g /config
+    container_name: transmission
     volumes:
       - ./transmission:/config
       - ${STORAGE}/torrents:/downloads
@@ -51,6 +53,7 @@ services:
 
   flexget:
     image: wiserain/flexget:3.5
+    container_name: flexget
     volumes:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
