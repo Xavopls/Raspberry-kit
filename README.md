@@ -1,11 +1,9 @@
-# My Raspberry Toolset
+# Raspberry Toolset
 
 This repository contains all the software that I have running in my Raspberry.
 It is an extended/modified fork of [this repo](https://github.com/pablokbs/plex-rpi). Kudos to my man Pelado :)
 
 The Raspberry I am using is: [Raspberry Pi 4 Model B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/).
-
-With this repo you'll be able to create a server that downloads your tv shows and movies automatically, and when finished, these will be accessible from Jellyfin.
 
 ## Available applications
 
@@ -87,22 +85,19 @@ Add your user to Docker group:
 sudo usermod -a -G docker xavo
 ```
 
-Mount the disk. If your disk is NTFS it is necessary to add ntfs-3g:
+Mount the disk:
 
 ```
 sudo su
 
-# Search the disk we want to mount. As example we will be using the partition sdb1)
+# Search the disk we want to mount. (Example: /dev/sda)
 fdisk -l
 
-# With this command we can get the UUID
-ls -l /dev/disk/by-uuid/
+# Check if it is already mounted
+lsblk
 
-# Mount the disk in the file /etc/fstab 
-echo UUID="{UUID of disk}" {Path to be mounted on (for example: /mnt/storage)} ntfs-3g defaults,auto 0 0 | \
-     sudo tee -a /etc/fstab
-# To update and read fstab:
-mount -a 
+# If the MOUNTPOINT header is blank, we have to mount it. We will mount it at /mnt in this example
+mount /dev/sda1 /mnt
 ```
 
 ## Set up
@@ -124,7 +119,7 @@ Run docker:
 `docker-compose up -d`
 
 ## Using it
-Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from inside the LAN.
+Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from the LAN.
 
 To access Jellyfin: http://192.168.1.23:8096   
 To access Transmission: http://192.168.1.23:9091    
