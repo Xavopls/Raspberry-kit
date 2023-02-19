@@ -93,11 +93,22 @@ sudo su
 # Search the disk we want to mount. (Example: /dev/sda)
 fdisk -l
 
-# Check if it is already mounted
+# Check if it is already mounted 
 lsblk
 
-# If the MOUNTPOINT header is blank, we have to mount it. We will mount it at /mnt in this example
-mount /dev/sda1 /mnt
+# If the MOUNTPOINT header is mounted (Example: in /mnt), run:
+umount /dev/sda1 /mnt
+
+# Find the UUID of the disk partition
+ls -l /dev/disk/by-uuid/
+
+# Add the mount settings into the '/etc/fstab' file so when the machine is rebooted, it won't change.
+# If the file system of your disk is ntfs, in the FILE_SYSTEM argument you'll have to install ntfs-3g and add "ntfs-3g" as label.
+echo UUID="{UUID_OF_THE_DISK}" {NEW_DIRECTORY_TO_MOUNT} {FILE_SYSTEM (Example: ext4)} defaults,auto 0 0 | \
+     sudo tee -a /etc/fstab
+
+# Read from fstab and mount the disk. (Restarting the machine also works)
+mount -a 
 ```
 
 ## Set up
@@ -105,6 +116,14 @@ mount /dev/sda1 /mnt
 Download this repo, create the env file and modify it. The docker compose reads from `.env`:
 
 `cp .env_example .env`
+
+
+### Flexget
+Flexget needs rights to write, so additional permissions have to be set up:   
+
+`sudo chmod 777 {Mountpoint}/storage/movies`  
+`sudo chmod 777 {Mountpoint}/storage/series`
+
 
 ### Pi-Hole
 The best way to make it run is changing the DNS of the LAN in your router to point to the raspberry private IP.   
