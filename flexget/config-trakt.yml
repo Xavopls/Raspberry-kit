@@ -1,9 +1,6 @@
-web_server: yes #Si esto no esta nose puede acceder a la gui
-
-# Plantillas para que la configuración de series y pelis sea siempre la misma.
+web_server: yes
 
 templates:  
-  
   series:
     configure_series:
       from:
@@ -24,16 +21,16 @@ templates:
 
 
   pelis:
-        trakt_list:
-          username: xavi_oli
-          strip_dates: yes
-          list: Movies
-          type: movies
-        seen: local
-        no_entries_ok: yes
-        accept_all: yes
-        trakt_lookup: yes  # can also use imdb_lookup or tmdb_lookup
-        priority: 10 # run after the movie queue fill task
+    trakt_list:
+      username: xavi_oli
+      strip_dates: yes
+      list: Movies
+      type: movies
+      seen: local
+      no_entries_ok: yes
+      accept_all: yes
+      trakt_lookup: yes 
+      priority: 10 
 
 tasks:
   # En las tareas sync-* se generan las listas para que flexget trabaje 
@@ -43,10 +40,10 @@ tasks:
     no_entries_ok: yes
     trakt_lookup: yes
     trakt_list:
-          username: xavi_oli
-          strip_dates: yes
-          list: Series
-          type: shows
+      username: xavi_oli
+      strip_dates: yes
+      list: Series
+      type: shows
     accept_all: yes
     set_series_begin: yes
     list_remove:
@@ -60,11 +57,11 @@ tasks:
           list: Series
           type: shows
     next_trakt_episodes:
-        username: xavi_oli
-        context: watched # esto depende de como cada uno usa trakt, puede ser collected también
-        list: Series
+      username: xavi_oli
+      context: watched # esto depende de como cada uno usa trakt, puede ser collected también
+      list: Series
 
-# Esta tarea sincroniza la lista de pelis
+  # Esta tarea sincroniza la lista de pelis
   sync-movies:
     trakt_list:
       username: xavi_oli
@@ -76,79 +73,79 @@ tasks:
 # En las tareas discover-* buscamos el contenido de las listas previamente generadas.
 # Usando los templates previamente creados, pasamos la configuración de lo que queremos ver.
 
-discover-series:
-    template: tv
-    discover:
-      what:
-        - next_trakt_episodes:
-            username: xavi_oli
-            context: watched
-            list: Series
-      from:
-        - argenteam:
-            force_subtitles: yes
-        - piratebay:
-            category: video
-            sort_by: leechers
-            url: https://piratebaymirror.eu
-        - search_rss:
-            url: https://eztv.ag/ezrss.xml
-            all_entries: no
-            ascii: yes
-            escape: yes
-            link:
-              - link
-              - magneturi
-    list_match:
-              from:
-                - trakt_list:
-                   username: xavi_oli
-                   list: Series
-                   type: shows
-    torrent_alive: 10 # Will reject results with less than 10 seeds
-    transmission:
-      host: transmission
-      port: 9091
-      username: admin
-      password: "123456"
+  discover-series:
+      template: tv
+      discover:
+        what:
+          - next_trakt_episodes:
+              username: xavi_oli
+              context: watched
+              list: Series
+        from:
+          - argenteam:
+              force_subtitles: yes
+          - piratebay:
+              category: video
+              sort_by: leechers
+              url: https://piratebaymirror.eu
+          - search_rss:
+              url: https://eztv.ag/ezrss.xml
+              all_entries: no
+              ascii: yes
+              escape: yes
+              link:
+                - link
+                - magneturi
+      list_match:
+                from:
+                  - trakt_list:
+                     username: xavi_oli
+                     list: Series
+                     type: shows
+      torrent_alive: 10 # Will reject results with less than 10 seeds
+      transmission:
+        host: transmission
+        port: 9091
+        username: admin
+        password: "123456"
 
- discover-movies:
-    template: movies
-    quality: 1080p+ hdtv+ # Make sure no screeners or cams are downloaded
-    discover:
-      what:
-        - movie_list:
-            list_name: Movies
-            strip_year: yes
-      from:
-        - argenteam:
-            force_subtitles: yes
-        - piratebay:
-            category: video
-            sort_by: leechers
-            url: https://piratebaymirror.eu
-        - search_rss:
-            url: https://eztv.ag/ezrss.xml
-            all_entries: no
-            ascii: yes
-            escape: yes
-            link:
-              - link
-              - magneturi
-      interval: 1 days
-    list_match:
-      from:
-        - movie_list: Movies
-    torrent_alive: 10 # Will reject results with less than 10 seeds
-    transmission:
-      host: transmission
-      port: 9091
-      username: admin
-      password: "123456"
+   discover-movies:
+      template: movies
+      quality: 1080p+ hdtv+ # Make sure no screeners or cams are downloaded
+      discover:
+        what:
+          - movie_list:
+              list_name: Movies
+              strip_year: yes
+        from:
+          - argenteam:
+              force_subtitles: yes
+          - piratebay:
+              category: video
+              sort_by: leechers
+              url: https://piratebaymirror.eu
+          - search_rss:
+              url: https://eztv.ag/ezrss.xml
+              all_entries: no
+              ascii: yes
+              escape: yes
+              link:
+                - link
+                - magneturi
+        interval: 1 days
+      list_match:
+        from:
+          - movie_list: Movies
+      torrent_alive: 10 # Will reject results with less than 10 seeds
+      transmission:
+        host: transmission
+        port: 9091
+        username: admin
+        password: "123456"
 
 # Ordenamos las descargas
 
- sort_tv:
+  sort_tv:
     priority: 2
     no_entries_ok: yes
     parsing:
@@ -172,7 +169,7 @@ discover-series:
             mkdir -p "/storage/series/{{ tvdb_series_name }}/Season {{ series_season }}" && cp "{{ location }}" "/storage/series/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
           fi
 
- sort_movies:
+  sort_movies:
     priority: 2
     no_entries_ok: yes
     filesystem:
@@ -191,7 +188,7 @@ discover-series:
          else
            mkdir -p "/storage/pelis/{{ movie_name }} ({{ movie_year }})" && cp "{{ location }}" "/storage/pelis/{{ movie_name }} ({{ movie_year }})/{{ movie_name }} ({{ movie_year }}){{ location | pathext }}"
          fi
-# Limpiamos transmission
+   # Limpiamos transmission
 
   remove-stale-torrents:
     from_transmission:

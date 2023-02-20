@@ -35,6 +35,7 @@ services:
     volumes:
       - ${MEDIA}:/media
       - ${STORAGE}/torrents:/downloads
+      - ${WORKDIR}:/workdir
 
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
@@ -65,7 +66,7 @@ services:
       - PUID=1001
       - PGID=1001
       - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD= ${FLEXGET_UI_PW}
+      - FG_WEBUI_PASSWD=${FLEXGET_UI_PW}
     restart: unless-stopped
 
   pihole:
@@ -78,8 +79,8 @@ services:
       - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "80:80/tcp"
     environment:
-      TZ: ${TIMEZONE}
-      WEBPASSWORD: ${PIHOLE_WEBPASSWORD}
+      TZ=${TIMEZONE}
+      WEBPASSWORD=${PIHOLE_WEBPASSWORD}
     volumes:
       - ./etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
