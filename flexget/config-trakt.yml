@@ -8,15 +8,14 @@ templates:
     configure_series:
       from:
         trakt_list:
-          username: usuario-trakt
-          account: usuario-api
+          username: xavi_oli
           strip_dates: yes
-          list: lista-series
+          list: Series
           type: shows
       settings:
           exact: yes
           propers: 12 hours
-          quality: 720p+ hdtv+
+          quality: 1080p+ hdtv+
     priority: 2
     seen: local
     no_entries_ok: yes
@@ -26,10 +25,9 @@ templates:
 
   pelis:
         trakt_list:
-          username: usuario-trakt
-          account: usuario-api
+          username: xavi_oli
           strip_dates: yes
-          list: lista-pelis
+          list: Movies
           type: movies
         seen: local
         no_entries_ok: yes
@@ -45,40 +43,35 @@ tasks:
     no_entries_ok: yes
     trakt_lookup: yes
     trakt_list:
-          username: usuario-trakt
-          account: usuario-api
+          username: xavi_oli
           strip_dates: yes
-          list: lista-series
+          list: Series
           type: shows
     accept_all: yes
     set_series_begin: yes
     list_remove:
       - trakt_list:
-          username: usuario-trakt
-          account: usuario-api
-          list: lista-series
+          username: xavi_oli
+          list: Series
           type: shows
     list_add:
       - trakt_list:
-          username: usuario-trakt
-          account: usuario-api
-          list: lista-series
+          username: xavi_oli
+          list: Series
           type: shows
     next_trakt_episodes:
-        username: usuario-trakt
-        account: usuario-api
+        username: xavi_oli
         context: watched # esto depende de como cada uno usa trakt, puede ser collected también
-        list: lista-series
+        list: Series
 
 # Esta tarea sincroniza la lista de pelis
   sync-movies:
     trakt_list:
-      username: usuario-trakt
-      account: usuario-api
-      list: lista-pelis
+      username: xavi_oli
+      list: Movies
     accept_all: yes
     list_add:
-      - movie_list: lista-pelis
+      - movie_list: Movies
       
 # En las tareas discover-* buscamos el contenido de las listas previamente generadas.
 # Usando los templates previamente creados, pasamos la configuración de lo que queremos ver.
@@ -88,10 +81,9 @@ discover-series:
     discover:
       what:
         - next_trakt_episodes:
-            username: usuario-trakt
-            account: usuario-api
+            username: xavi_oli
             context: watched
-            list: lista-series
+            list: Series
       from:
         - argenteam:
             force_subtitles: yes
@@ -110,9 +102,8 @@ discover-series:
     list_match:
               from:
                 - trakt_list:
-                   username: usuario-trakt
-                   account: usuario-api
-                   list: lista-series
+                   username: xavi_oli
+                   list: Series
                    type: shows
     torrent_alive: 10 # Will reject results with less than 10 seeds
     transmission:
@@ -123,11 +114,11 @@ discover-series:
 
  discover-movies:
     template: movies
-    quality: 720p+ hdtv+ # Make sure no screeners or cams are downloaded
+    quality: 1080p+ hdtv+ # Make sure no screeners or cams are downloaded
     discover:
       what:
         - movie_list:
-            list_name: lista-pelis
+            list_name: Movies
             strip_year: yes
       from:
         - argenteam:
@@ -147,7 +138,7 @@ discover-series:
       interval: 1 days
     list_match:
       from:
-        - movie_list: lista-pelis
+        - movie_list: Movies
     torrent_alive: 10 # Will reject results with less than 10 seeds
     transmission:
       host: transmission

@@ -112,11 +112,9 @@ mount -a
 ```
 
 ## Set up
-
 Download this repo, create the env file and modify it. The docker compose reads from `.env`:
 
-`cp .env_example .env`
-
+`cp .env_example .env`   
 
 ### Flexget
 Flexget needs rights to write, so additional permissions have to be set up:   
@@ -138,10 +136,10 @@ Run docker:
 `docker-compose up -d`
 
 ## Using it
-Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from the LAN.
+Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from the LAN.   
 
 To access Jellyfin: http://192.168.1.23:8096   
 To access Transmission: http://192.168.1.23:9091    
 To access Flexget UI: http://192.168.1.23:5050    
 To access Pihole UI: http://192.168.1.23/admin    
- 
+To access Samba: Open the file explorer in Windows, press CTRL+L and type `\\192.168.1.23`
