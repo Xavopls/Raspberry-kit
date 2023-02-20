@@ -24,18 +24,20 @@ services:
     image: dperson/samba 
     container_name: samba
     restart: always
-    command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "Documents;/Documents;yes;no;yes;all;pi;pi" -p'
     stdin_open: true
     tty: true
     environment:
       - TZ=${TIMEZONE}
+      - PUID=1000
+      - PGID=1000
     ports:
       - 139:139
       - 445:445
     volumes:
       - ${MEDIA}:/media
       - ${STORAGE}/torrents:/downloads
-      - ${WORKDIR}:/workdir
+      - ${DOCUMENTS}:/Documents
 
   transmission:
     image : jaymoulin/transmission:3.00-1.6.1
@@ -79,8 +81,8 @@ services:
       - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "80:80/tcp"
     environment:
-      TZ=${TIMEZONE}
-      WEBPASSWORD=${PIHOLE_WEBPASSWORD}
+      TZ: ${TIMEZONE}
+      WEBPASSWORD: ${PIHOLE_WEBPASSWORD}
     volumes:
       - ./etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d

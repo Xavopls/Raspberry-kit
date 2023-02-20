@@ -13,3 +13,8 @@ downloads/*
 flexget/*.sqlite
 transmission/dht.dat
 transmission/stats.json
+transmission/resume/*
+transmission/torrents
+flexget/cached_resources
+etc-pihole/
+etc-dnsmasq.d/
