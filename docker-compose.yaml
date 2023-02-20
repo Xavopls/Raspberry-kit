@@ -1,6 +1,20 @@
 version: "3.7"
 
 services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./heimdall/config:/config
+    ports:
+      - 2550:80
+      - 2551:443
+    restart: unless-stopped
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin

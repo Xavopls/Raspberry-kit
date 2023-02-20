@@ -18,3 +18,4 @@ transmission/torrents
 flexget/cached_resources
 etc-pihole/
 etc-dnsmasq.d/
+heimdall
