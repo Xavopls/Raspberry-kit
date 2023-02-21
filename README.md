@@ -28,6 +28,9 @@ Heimdall Application Dashboard is a dashboard for all your web applications. It 
 ### [Portainer](https://www.portainer.io/)
 Portainer is a powerful, open source toolset that allows you to easily build and manage containers in Docker, Docker Swarm, Kubernetes and Azure ACI.  
 
+### [Uptime Kuma](https://uptime.kuma.pet/)    
+A self-hosted monitoring tool.    
+
 ## Initial requirements
 
 Add your user (change `xavo` with your username).
@@ -160,4 +163,5 @@ Let's assume the Raspberry private address is `192.168.1.23` and we are trying t
 #### Transmission: http://192.168.1.23:9091    
 #### Flexget UI: http://192.168.1.23:5050    
 #### Pihole UI: http://192.168.1.23/admin    
+#### Uptime Kuma: http://192.168.1.23:3001    
 #### Samba: Open the file explorer in Windows, press CTRL+L and type `\\192.168.1.23` (It is necessary to previously activate the SMB protocol in Windows)

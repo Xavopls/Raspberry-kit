@@ -115,11 +115,22 @@ services:
       - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
     restart: unless-stopped
 
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    volumes:
+      - uptime-kuma_data:/app/data
+      - /var/run/docker.sock:/app/data/docker.sock
+    ports:
+      - 3001:3001
+    restart: unless-stopped
+
     # TO INSTALL:
       # Rsnap
       # DuckDNS
-      # Uptime kuma
       # Synology
+      # mail backups
       
 volumes:
   portainer_data:
+  uptime-kuma_data:
