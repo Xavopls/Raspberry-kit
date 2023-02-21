@@ -1,6 +1,6 @@
 # Raspberry Toolset
 
-This repository contains all the software that I have running in my Raspberry.
+This repository contains all the software that I have running in my Raspberry.   
 It is an extended/modified fork of [this repo](https://github.com/pablokbs/plex-rpi). Kudos to my man Pelado :)
 
 The Raspberry I am using is: [Raspberry Pi 4 Model B (8GB)](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/).
@@ -23,7 +23,10 @@ Samba is a free software re-implementation of the SMB networking protocol for Wi
 The Pi-hole® is a DNS sinkhole that protects your devices from unwanted content, without installing any client-side software.
 
 ### [Heimdall](https://jellyfin.org/)
-Heimdall Application Dashboard is a dashboard for all your web applications. It doesn't need to be limited to applications though, you can add links to anything you like.   
+Heimdall Application Dashboard is a dashboard for all your web applications. It doesn't need to be limited to applications though, you can add links to anything you like. 
+
+### [Portainer](https://www.portainer.io/)
+Portainer is a powerful, open source toolset that allows you to easily build and manage containers in Docker, Docker Swarm, Kubernetes and Azure ACI.  
 
 ## Initial requirements
 
@@ -128,11 +131,18 @@ Flexget needs rights to write, so additional permissions have to be set up:
 
 ### Pi-Hole
 The best way to make run it is changing the DNS of the LAN in your router to point to the raspberry private IP.   
-If that's not possible because Router's firmware is trash, it has to be done client by client.   
+If that's not possible because router's firmware is trash, it has to be done client by client.   
 
 [Guide](https://discourse.pi-hole.net/t/how-do-i-configure-my-devices-to-use-pi-hole-as-their-dns-server/245)
 
 ### Heimdall
+
+The current version (2.5.5) has an [open issue](https://github.com/linuxserver/Heimdall/issues/840) that blocks the application after a while with errors 500.   
+To avoid this, run this from project's root folder:
+
+`mkdir /heimdall/config/www/`   
+`cp .env_heimdall /heimdall/config/www/.env`
+
 It is necessary to add the applications manually. This is quick and straightforward. You need to generate API auth keys from some applications (Jellyfin, Pihole, Transmission...) to get live data in the dashboard.
 
 ## Running it
@@ -144,9 +154,10 @@ Run docker:
 ## Using it
 Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from the LAN.   
 
-To access Heimdall: http://192.168.1.23:2550   
-To access Jellyfin: http://192.168.1.23:8096   
-To access Transmission: http://192.168.1.23:9091    
-To access Flexget UI: http://192.168.1.23:5050    
-To access Pihole UI: http://192.168.1.23/admin    
-To access Samba: Open the file explorer in Windows, press CTRL+L and type `\\192.168.1.23` (It is necessary to previously activate the SMB protocol in Windows)
+#### Heimdall: http://192.168.1.23:2550   
+#### Portainer: https://192.168.1.23:9443   
+#### Jellyfin: http://192.168.1.23:8096   
+#### Transmission: http://192.168.1.23:9091    
+#### Flexget UI: http://192.168.1.23:5050    
+#### Pihole UI: http://192.168.1.23/admin    
+#### Samba: Open the file explorer in Windows, press CTRL+L and type `\\192.168.1.23` (It is necessary to previously activate the SMB protocol in Windows)
