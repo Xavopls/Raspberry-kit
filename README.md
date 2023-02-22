@@ -5,7 +5,7 @@ It is an extended/modified fork of [this repo](https://github.com/pablokbs/plex-
 
 The Raspberry I am using is: [Raspberry Pi 4 Model B (8GB)](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/).
 
-## Available applications
+## Available applications from the Docker compose file
 
 ### [Jellyfin](https://jellyfin.org/)
 Jellyfin enables you to collect, manage, and stream your media.
@@ -31,9 +31,12 @@ Portainer is a powerful, open source toolset that allows you to easily build and
 ### [Uptime Kuma](https://uptime.kuma.pet/)    
 A self-hosted monitoring tool.    
 
+### [Rsnapshot](https://rsnapshot.org/)    
+Rsnapshot is a filesystem snapshot utility based on rsync    
+
 ## Initial requirements
 
-Add your user (change `xavo` with your username).
+Add your user (change `xavo` for your username).
 
 ```
 sudo useradd xavo -G sudo

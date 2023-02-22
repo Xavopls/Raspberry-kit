@@ -125,6 +125,21 @@ services:
       - 3001:3001
     restart: unless-stopped
 
+  rsnapshot:
+    image: lscr.io/linuxserver/rsnapshot:latest
+    container_name: rsnapshot
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./rsnapshot/config:/config
+      - /etc:/host/etc:ro
+      - /home/xavi:/host/home/xavi:ro
+      - /mnt/storage/backup/raspberrypi:/snapshots
+    restart: unless-stopped 
+
+
     # TO INSTALL:
       # Rsnap
       # DuckDNS
