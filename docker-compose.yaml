@@ -38,6 +38,8 @@ services:
       - ${JELLYFIN_LIBRARY}:/config
       - ${JELLYFIN_SERIES}:/data/tvshows
       - ${JELLYFIN_MOVIES}:/data/movies
+      - ${JELLYFIN_IMAGES}:/data/images
+      - ${JELLYFIN_VIDEOS}:/data/videos
     ports:
       - 8096:8096
       - 8920:8920 #optional
@@ -101,8 +103,8 @@ services:
     container_name: pihole
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+      - "58:53/tcp"
+      - "58:53/udp"
       - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "80:80/tcp"
     environment:
@@ -134,18 +136,20 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./rsnapshot/config:/config
-      - /etc:/host/etc:ro
-      - /home/xavi:/host/home/xavi:ro
-      - /mnt/storage/backup/raspberrypi:/snapshots
+      - /etc:/host/etc
+      - /home/xavi:/host/home/xavi
+      - /mnt/storage/backup/raspberrypi:/.snapshots
     restart: unless-stopped 
 
-
-    # TO INSTALL:
-      # Rsnap
-      # DuckDNS
-      # Synology
-      # mail backups
-      
 volumes:
   portainer_data:
   uptime-kuma_data:
+
+
+# To Do:
+  # Maddy (Mailing sv)
+  # Integrate Rsnapshot with Maddy
+  # DuckDNS
+  # nginx + TLS all services
+  
+
