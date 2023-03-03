@@ -1,19 +1,13 @@
 version: "3.7"
 
 services:
-  heimdall:
-    image: lscr.io/linuxserver/heimdall:latest
-    container_name: heimdall
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TIMEZONE}
-    volumes:
-      - ./heimdall/config:/config
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
+    container_name: homepage
     ports:
-      - 2550:80
-      - 2551:443
-    restart: unless-stopped
+      - 3000:3000
+    volumes:
+      - ${CONFIGS}/homepage:/app/config # Make sure your local config directory exists
 
   portainer:
     image: portainer/portainer-ce:latest
@@ -35,11 +29,11 @@ services:
       - TZ=${TIMEZONE}
       - JELLYFIN_PublishedServerUrl=192.168.0.5
     volumes:
-      - ${JELLYFIN_LIBRARY}:/config
-      - ${JELLYFIN_SERIES}:/data/tvshows
-      - ${JELLYFIN_MOVIES}:/data/movies
-      - ${JELLYFIN_IMAGES}:/data/images
-      - ${JELLYFIN_VIDEOS}:/data/videos
+      - ${CONFIGS}/jellyfin:/config
+      - ${SERIES}:/data/tvshows
+      - ${MOVIES}:/data/movies
+      - ${IMAGES}:/data/images
+      - ${VIDEOS}:/data/videos
     ports:
       - 8096:8096
       - 8920:8920 #optional
@@ -47,11 +41,42 @@ services:
       - 1900:1900/udp #optional
     restart: unless-stopped
 
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${CONFIGS}/radarr:/config
+      - ${MOVIES}:/movies #optional
+      - ${DOWNLOADS}:/downloads #optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      - AUTO_UPDATE=true #optional
+      - RUN_OPTS= #optional
+    volumes:
+      - ${CONFIGS}/jackett:/config
+      - ${DOWNLOADS}:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+
   samba:
     image: dperson/samba 
     container_name: samba
     restart: always
-    command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no" -s "Documents;/Documents;yes;no;yes;all;pi;pi" -p'
+    command: '-u "pi;password" -s "Storage;/Storage;yes;no;yes;all;pi;pi" -p'
     stdin_open: true
     tty: true
     environment:
@@ -62,41 +87,26 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - ${MEDIA}:/media
-      - ${STORAGE}/torrents:/downloads
-      - ${DOCUMENTS}:/Documents
+      - ${STORAGE}:/Storage
 
-  transmission:
-    image : jaymoulin/transmission:3.00-1.6.1
-    container_name: transmission
-    command: transmission-daemon -f -g /config
-    volumes:
-      - ./transmission:/config
-      - ${STORAGE}/torrents:/downloads
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
-    expose:
-      - 9091
-    restart: unless-stopped
-
-  flexget:
-    image: wiserain/flexget:3.5
-    container_name: flexget
-    volumes:
-      - ./flexget:/config
-      - ./flexget/custom-cont-init.d:/custom-cont-init.d
-      - ${STORAGE}/torrents:/downloads
-      - ${MEDIA}:/storage
-    ports:
-      - 5050:5050
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
     environment:
-      - PUID=1001
-      - PGID=1001
-      - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD=${FLEXGET_UI_PW}
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8088
+    volumes:
+      - ${CONFIGS}/qbittorrent:/config
+      - ${DOWNLOADS}:/downloads
+    ports:
+      - 8088:8088
+      - 6881:6881
+      - 6881:6881/udp
     restart: unless-stopped
+
+    #command: transmission-daemon -f -g /config
 
   pihole:
     image: pihole/pihole:latest
@@ -111,8 +121,8 @@ services:
       TZ: ${TIMEZONE}
       WEBPASSWORD: ${PIHOLE_WEBPASSWORD}
     volumes:
-      - ./etc-pihole:/etc/pihole
-      - ./etc-dnsmasq.d:/etc/dnsmasq.d
+      - ${CONFIGS}/pihole/etc-pihole:/etc/pihole
+      - ${CONFIGS}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
     restart: unless-stopped
@@ -121,7 +131,7 @@ services:
     image: louislam/uptime-kuma:latest
     container_name: uptime-kuma
     volumes:
-      - uptime-kuma_data:/app/data
+      - ${CONFIGS}/uptime_kuma:/app/data
       - /var/run/docker.sock:/app/data/docker.sock
     ports:
       - 3001:3001
@@ -135,16 +145,14 @@ services:
       - PGID=1000
       - TZ=${TIMEZONE}
     volumes:
-      - ./rsnapshot/config:/config
+      - ${CONFIGS}/rsnapshot:/config
       - /etc:/host/etc
       - /home/xavi:/host/home/xavi
-      - /mnt/storage/backup/raspberrypi:/.snapshots
+      - ${BACKUPS}:/.snapshots
     restart: unless-stopped 
 
 volumes:
   portainer_data:
-  uptime-kuma_data:
-
 
 # To Do:
   # Maddy (Mailing sv)
