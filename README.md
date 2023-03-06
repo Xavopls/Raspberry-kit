@@ -1,14 +1,20 @@
 # Raspberry Toolset
 
 This repository contains all the software that I have running in my Raspberry.   
-It is an extended/modified fork of [this repo](https://github.com/pablokbs/plex-rpi). Kudos to my man Pelado :)
+It is an extended/modified fork of [this repo](https://github.com/pablokbs/plex-rpi). Kudos to my man Pelado :)    
 
-The Raspberry I am using is: [Raspberry Pi 4 Model B (8GB)](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/).
+
+![Home Page](./docs/img/homepage.jpg)     
+
+The Raspberry I am using is: [Raspberry Pi 4 Model B (8GB)](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/specifications/).     
 
 ## Available applications from the Docker compose file
 
+### [Homepage](https://github.com/benphelps/homepage)
+Highly customizable application dashboard   
+
 ### [Jellyfin](https://jellyfin.org/)
-Jellyfin enables you to collect, manage, and stream your media.     
+Jellyfin enables you to collect, manage, and stream your media.   
 
 ### [Jackett](https://github.com/Jackett/Jackett)
 Jackett works as a proxy server: it translates queries into tracker-site-specific http queries.     
@@ -132,13 +138,21 @@ Download this repo, create the env file and modify it. The docker compose reads 
 `cp .env_example .env`   
 
 ### Pi-Hole
-The best way to make run it is changing the DNS of the LAN in your router to point to the raspberry private IP.   
+The best way to set it up is modifying the IP of the DNS in your router to point the raspberry private IP.   
 If that's not possible because router's firmware is trash, it has to be done client by client.   
 
 [Guide](https://discourse.pi-hole.net/t/how-do-i-configure-my-devices-to-use-pi-hole-as-their-dns-server/245)
 
 ### Sonarr
-Sonarr docker image is not working for arm64 arch, so a manual installation has to be done following the [official docs](https://sonarr.tv/#downloads-v3-linux).    
+Sonarr docker image is not working for arm64 arch, even though there is a tag for it, it does not work **on my machine**.
+Being this the case, a manual installation has to be done following the [official docs](https://sonarr.tv/#downloads-v3-linux).    
+
+### Homepage    
+To apply my current dashboard config, it is necessary to run this command:
+
+`cp configs/homepage/services.example.yaml configs/homepage/services.example`
+
+Note that you'll have to modify some fields in the new file to make the dashboard work (IPs, credentials and API keys). 
 
 ## Running it
 
@@ -149,6 +163,7 @@ Run docker:
 ## Using it
 Let's assume the Raspberry private address is `192.168.1.23` and we are trying to access it from the LAN.   
 
+#### Homepage: http://192.168.1.23:3000   
 #### Jellyfin: http://192.168.1.23:8096   
 #### Qbittorrent: http://192.168.1.23:8088    
 #### Portainer: https://192.168.1.23:9443   

@@ -19,4 +19,7 @@ flexget/cached_resources
 etc-pihole/
 etc-dnsmasq.d/
 heimdall/
-configs/
+configs/homepage/services.yaml
+configs/qbittorrent
+configs/pihole
+configs/uptime_kuma

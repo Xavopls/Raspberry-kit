@@ -1,0 +1,43 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/bookmarks
+
+- Developer / Work:
+    - Github:
+        - abbr: GH
+          href: https://github.com/Xavopls
+          icon: github.png
+    - Gmail:
+        - abbr: GM
+          href: https://gmail.com
+          icon: gmail.png   
+    - Tradingview:
+        - abbr: TV
+          href: https://tradingview.com
+          icon: /icons/tradingview.png         
+                 
+
+- Social:
+    - Linkedin:
+        - abbr: LI
+          href: https://linkedin.com/
+          icon: linkedin.png
+    - Twitter:
+        - abbr: TW
+          href: https://twitter.com/
+          icon: twitter.png
+    - Facebook:
+        - abbr: FB
+          href: https://facebook.com/
+          icon: facebook.png
+      
+- Entertainment:
+    - YouTube:
+        - abbr: YT
+          href: https://youtube.com/
+          icon: youtube.png
+    - Reddit:
+        - abbr: RE
+          href: https://reddit.com/
+          icon: reddit.png
+

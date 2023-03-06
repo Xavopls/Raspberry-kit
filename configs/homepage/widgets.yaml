@@ -1,0 +1,27 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/widgets
+
+- resources:
+    cpu: true
+    memory: true
+    label: System
+    disk: /
+- resources:
+    label: Storage
+    disk: /mnt
+
+- openmeteo:
+    label: Barcelona # optional
+    latitude: 41.3812881
+    longitude: 2.1669678
+    units: metric # or imperial
+    cache: 5 
+
+- search:
+    focus: false
+    provider: google 
+    target: _blank
+
+
+

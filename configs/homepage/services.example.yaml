@@ -1,0 +1,90 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Media:
+    - Jellyfin:
+        href: {RASPBERRY_IP}:8096
+        ping: {RASPBERRY_IP}:8096
+        description: Media server
+        icon: jellyfin.png
+        widget:
+            type: jellyfin
+            url: {RASPBERRY_IP}:8096
+            key: {API_KEY_OF_THE_SERVICE}
+
+    - Sonarr:
+        href: {RASPBERRY_IP}:8989
+        ping: {RASPBERRY_IP}:8989
+        description: Series management
+        icon: sonarr.png
+        widget:
+            type: sonarr
+            url: {RASPBERRY_IP}:8989
+            key: {API_KEY_OF_THE_SERVICE}
+            fields: ["wanted", "queued", "series"]
+
+    - Radarr:
+        href: {RASPBERRY_IP}:7878
+        ping: {RASPBERRY_IP}:7878
+        description: Movie management
+        icon: radarr.png
+        widget:
+            type: radarr
+            url: {RASPBERRY_IP}:7878
+            key: {API_KEY_OF_THE_SERVICE}
+            fields: ["wanted", "missing", "queued", "movies"]
+
+- Torrents:
+    - Qbittorrent:
+        href: {RASPBERRY_IP}:8088
+        ping: {RASPBERRY_IP}:8088
+        description: Torrent downloader
+        icon: qbittorrent.png
+        widget:
+            type: qbittorrent
+            url: {RASPBERRY_IP}:8088
+            username: {USERNAME}
+            password: {PASSWORD}
+            fields: ["leech", "download", "seed", "upload"]
+
+    - Jackett:
+        href: {RASPBERRY_IP}:9117
+        ping: {RASPBERRY_IP}:9117
+        description: Torrent indexers management
+        icon: jackett.png
+        widget:
+            type: jackett
+            url: {RASPBERRY_IP}:9117
+            fields: ["configured", "errored"]
+
+
+- Utilities:
+    - Portainer:
+        href: https://{RASPBERRY_IP}:9443
+        ping: https://{RASPBERRY_IP}:9443
+        description: Container management
+        icon: portainer.png
+
+    - Pihole:
+        href: {RASPBERRY_IP}:80/admin
+        ping: {RASPBERRY_IP}:80/admin
+        description: DNS and add blocking
+        icon: pihole.png
+        widget:
+            type: pihole
+            url: {RASPBERRY_IP}:80
+            key: {API_KEY_OF_THE_SERVICE}
+            fields: ["queries", "blocked", "gravity"]
+
+
+    - Uptime Kuma:
+        href: {RASPBERRY_IP}:3001
+        ping: {RASPBERRY_IP}:3001
+        description: Monitoring tool
+        icon: uptime-kuma.png
+        widget:
+            type: uptimekuma
+            url: {RASPBERRY_IP}:3001
+            slug: dashboard
+            fields: ["up", "down", "uptime", "incident"]

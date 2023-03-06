@@ -1,0 +1,9 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/settings
+title: Welcome!
+background: /images/beach_bg_3.jpg
+backgroundOpacity: 0.3
+theme: dark
+favicon: /images/favicon.ico
+
