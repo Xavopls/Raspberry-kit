@@ -11,7 +11,17 @@
         widget:
             type: jellyfin
             url: {RASPBERRY_IP}:8096
-            key: {API_KEY_OF_THE_SERVICE}
+            key: {API_KEY}
+    
+    - Jellyseerr:
+        href: {RASPBERRY_IP}:5055
+        ping: {RASPBERRY_IP}:5055
+        description: Media server
+        icon: jellyseerr.png
+        widget:
+            type: jellyseerr
+            url: {RASPBERRY_IP}:5055
+            key: {API_KEY}
 
     - Sonarr:
         href: {RASPBERRY_IP}:8989
@@ -21,7 +31,7 @@
         widget:
             type: sonarr
             url: {RASPBERRY_IP}:8989
-            key: {API_KEY_OF_THE_SERVICE}
+            key: {API_KEY}
             fields: ["wanted", "queued", "series"]
 
     - Radarr:
@@ -32,8 +42,19 @@
         widget:
             type: radarr
             url: {RASPBERRY_IP}:7878
-            key: {API_KEY_OF_THE_SERVICE}
+            key: {API_KEY}
             fields: ["wanted", "missing", "queued", "movies"]
+
+    - Bazarr:
+        href: {RASPBERRY_IP}:6767
+        ping: {RASPBERRY_IP}:6767
+        description: Subtitles management
+        icon: bazarr.png
+        widget:
+            type: bazarr
+            url: {RASPBERRY_IP}:6767
+            key: {API_KEY}
+            fields: ["missingEpisodes", "missingMovies"]
 
 - Torrents:
     - Qbittorrent:
@@ -74,7 +95,7 @@
         widget:
             type: pihole
             url: {RASPBERRY_IP}:80
-            key: {API_KEY_OF_THE_SERVICE}
+            key: {API_KEY}
             fields: ["queries", "blocked", "gravity"]
 
 

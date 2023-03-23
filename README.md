@@ -25,6 +25,12 @@ Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS fee
 ### [Radarr](https://radarr.video/)
 Radarr is a movie collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new movies and will interface with clients and indexers to grab, sort, and rename them.
 
+### [Bazarr](https://www.bazarr.media/)
+Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
+
+### [Jellyseerr](https://overseerr.dev/)
+Jellyseerr is a request management and media discovery tool built to work with your existing Jellyfin ecosystem.
+
 ### [Qbittorrent](https://www.qbittorrent.org/)
 A Fast, Easy and Free Bittorrent Client.     
 
@@ -80,14 +86,8 @@ sudo apt-get update && sudo apt-get install -y \
 
 Install Docker:
 
-```
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-echo "deb [arch=armhf] https://download.docker.com/linux/debian \
-     $(lsb_release -cs) stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-ce docker-compose
-```
+Installing docker the conventional way in this Raspberry architecture, for some reason, it installs the 32 bits version by default.     
+To install the 64 bit version: [Link](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script)    
 
 Change your Docker config so the temps are stored in the external disk.
 Assuming the external device is mounted on: `/mnt/storage/`
@@ -143,10 +143,6 @@ If that's not possible because router's firmware is trash, it has to be done cli
 
 [Guide](https://discourse.pi-hole.net/t/how-do-i-configure-my-devices-to-use-pi-hole-as-their-dns-server/245)
 
-### Sonarr
-Sonarr docker image is not working for arm64 arch, even though there is a tag for it, it does not work **on my machine**.
-Being this the case, a manual installation has to be done following the [official docs](https://sonarr.tv/#downloads-v3-linux).    
-
 ### Homepage    
 To apply my current dashboard config, it is necessary to run this command:
 
@@ -170,6 +166,8 @@ Let's assume the Raspberry private address is `192.168.1.23` and we are trying t
 #### Jackett: https://192.168.1.23:9117   
 #### Radarr: http://192.168.1.23:7878    
 #### Sonarr: http://192.168.1.23:8989    
+#### Bazarr: http://192.168.1.23:6767    
+#### Jellyseer: http://192.168.1.23:5055    
 #### Pihole UI: http://192.168.1.23/admin    
 #### Uptime Kuma: http://192.168.1.23:3001    
-#### Samba: Open the file explorer in Windows, press CTRL+L and type `\\192.168.1.23` (It is necessary to previously activate the SMB protocol in Windows)
+#### Samba: Open the file explorer in Windows, press CTRL+L and type `\\192.168.1.23` (user: pi, password: password)

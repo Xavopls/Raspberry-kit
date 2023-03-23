@@ -10,16 +10,5 @@ downloads/*
 *.log
 .DS_Store
 .env_secret
-flexget/*.sqlite
-transmission/dht.dat
-transmission/stats.json
-transmission/resume/*
-transmission/torrents
-flexget/cached_resources
-etc-pihole/
-etc-dnsmasq.d/
-heimdall/
 configs/homepage/services.yaml
-configs/qbittorrent
-configs/pihole
-configs/uptime_kuma
+!configs/homepage/
